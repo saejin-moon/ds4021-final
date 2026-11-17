@@ -14,6 +14,15 @@ from sklearn.model_selection import train_test_split
 
 TARGET_COL = "koi_disposition"
 NON_PREDICTIVE_ID_COLS = ("rowid", "kepid")
+# Robovetter vetting outputs directly encode the disposition label (target leakage).
+VETTING_LEAKAGE_COLS = (
+    "koi_score",
+    "koi_fpflag_nt",
+    "koi_fpflag_ss",
+    "koi_fpflag_co",
+    "koi_fpflag_ec",
+)
+EXCLUDED_NUMERIC_COLS = NON_PREDICTIVE_ID_COLS + VETTING_LEAKAGE_COLS
 REPRESENTATIVE_FEATURES = (
     ("koi_period", "Orbital Period [days]"),
     ("koi_duration", "Transit Duration [hrs]"),
@@ -39,7 +48,7 @@ def prepare_dataset(raw_csv_path: Path) -> tuple[pd.DataFrame, list[str]]:
     feature_cols = [
         col
         for col in numeric_cols
-        if col not in NON_PREDICTIVE_ID_COLS and non_empty_df[col].nunique(dropna=True) > 1
+        if col not in EXCLUDED_NUMERIC_COLS and non_empty_df[col].nunique(dropna=True) > 1
     ]
 
     dense_df = non_empty_df[feature_cols + [TARGET_COL]].dropna().reset_index(drop=True)
