@@ -10,6 +10,9 @@ Thumbs.db
 # Working dataset (80% split — local only)
 data_working/
 
+# Local proposal build directory
+proposal/
+
 # Virtual environments
 .venv/
 venv/
