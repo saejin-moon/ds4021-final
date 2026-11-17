@@ -1,0 +1,15 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# Working dataset (80% split — local only)
+data_working/
+
+# Virtual environments
+.venv/
+venv/
